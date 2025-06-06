@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kitab Kalam</title>
+
+  <!-- jQuery and jQuery UI -->
+  <script src="jquery-3.7.1.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+  />
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+  <!-- smSlider CSS -->
+  <link rel="stylesheet" href="Slider/smSlider/css/smslider.css" />
+
+  <!-- Swiper CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="kitabkalam.css" />
+
+  <!-- Font Awesome (for icons like cart & search) -->
+  <script
+    src="https://kit.fontawesome.com/a076d05399.js"
+    crossorigin="anonymous"
+  ></script>
+
+  <style>
+    /* Global Reset and Font */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background-color: #f4f4f4;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      height: 60px;
+      background-color: #145da0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      gap: 20px;
+    }
+
+    .nav-logo {
+      height: 52px;
+      width: 110px;
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .logo {
+      background-image: url(logo.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      height: 100%;
+      width: 100%;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-links li a:hover {
+      color: #d4f1f4;
+    }
+
+    /* Dropdown Menu */
+    .nav-dropdown .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #145da0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-radius: 0 0 8px 8px;
+      min-width: 140px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .nav-dropdown .dropdown-menu li a {
+      display: block;
+      padding: 8px 15px;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-dropdown .dropdown-menu li a:hover {
+      background-color: #0d3d66;
+    }
+
+    /* Search */
+    .nav-search {
+      display: flex;
+      color: #ffffff;
+      width: 320px;
+      height: 36px;
+      border-radius: 4px;
+      align-items: center;
+      overflow: hidden;
+      background: white;
+    }
+
+    .nav-search:hover {
+      border: 2px solid #145da0;
+    }
+
+    .search-input {
+      border: none;
+      padding: 8px 12px;
+      font-size: 1rem;
+      flex: 1;
+      outline: none;
+      color: #333;
+    }
+
+    .search-icon {
+      width: 40px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.1rem;
+      background-color: #d4f1f4;
+      cursor: pointer;
+      color: #145da0;
+    }
+
+    .search-icon:hover {
+      background-color: #b0d9e4;
+    }
+
+    /* Cart */
+    .nav-cart {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-cart i {
+      font-size: 30px;
+      color: white;
+    }
+
+    .nav-cart a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    footer .copyright {
+      background-color: #145da0;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-color: #e6f0ff;
+      text-align: center;
+      padding: 100px 20px;
+      border-radius: 0 0 10px 10px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #003366;
+    }
+
+    .hero-content h1 span {
+      color: #003366;
+      font-weight: bold;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background-color: #003366;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      border: none;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0052cc;
+    }
+
+    
+    /* Sections */
+    .section {
+      display: none;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 20px 0;
+    }
+
+    .product-grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .product-grid::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    .product-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Product Card */
+    .product-card {
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      width: 240px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 10px;
+      flex-shrink: 0;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border: 1px solid #ddd;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+      color: #145da0;
+    }
+
+    .product-price {
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    /* About Section */
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+
+    .about-image img {
+      max-width: 350px;
+      width: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .about-text h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #145da0;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    /* Cart */
+    .cart-summary {
+      padding: 20px;
+      font-size: 1.1rem;
+      color: #145da0;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 10px;
+      }
+
+      .product-grid {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+      }
+
+      .product-card {
+        width: 200px;
+      }
+
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .about-text {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="navbar">
+      <div class="nav-logo">
+        <div class="logo"></div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link" data-section="home">Home</a></li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-link" data-section="shop">Shop</a>
+          <ul class="dropdown-menu">
+            <li><a href="#" class="category" data-category="all">All</a></li>
+            <li><a href="#" class="category" data-category="writing">Writing Instruments</a></li>
+            <li><a href="#" class="category" data-category="paper">Paper Products</a></li>
+            <li><a href="#" class="category" data-category="art">Art & Craft Supplies</a></li>
+            <li><a href="#" class="category" data-category="correction">Correction Supplies</a></li>
+          </ul>
+        </li>
+        <li><a href="#" class="nav-link" data-section="about">About</a></li>
+        <li><a href="#" class="nav-link" data-section="cart">Cart</a></li>
+      </ul>
+
+      <div class="nav-search">
+        <input
+          type="text"
+          class="search-input"
+          id="search-input"
+          placeholder="Search products..."
+        />
+        <div class="search-icon" id="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
+      </div>
+
+      <div class="nav-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <a href="#" class="nav-link" data-section="cart" id="cart-count"
+          >0 items</a
+        >
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section (Home) -->
+      <section id="home" class="section active">
+        <div class="hero">
+          <div class="hero-content">
+            <h1>
+              Welcome to <span>Kitab Kalam</span> — Your Destination for Stationery!
+            </h1>
+            <p>
+              Discover the finest collection of pens, pencils, erasers, and more!
+            </p>
+            <button class="btn" id="shop-btn">Shop Now</button>
+          </div>
+        </div>
+
+        <!-- Swiper Slider -->
+        <div class="swiper mySwiper" style="width: 100%; max-width: 800px; margin: 20px auto;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img
+                src="pen.jpg"
+                alt="Pen"
+                style="width: 100%; height: 250px; object-fit: contain"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="note.jpg"
+                alt="Pencil"
+                style="width: 100%; height: 250px; object-fit: contain"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="art.jpg"
+                alt="Eraser"
+                style="width: 100%; height: 250px; object-fit: contain"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="corr.jpg"
+                alt="Sharpener"
+                style="width: 100%; height: 250px; object-fit: contain"
+              />
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </section>
+
+      <!-- Shop Section -->
+      <section id="shop" class="section">
+        <div>
+          <label for="category-filter" style="font-weight:bold;">Filter by category:</label>
+          <select id="category-filter" style="margin-left:10px; padding: 5px 8px; font-size: 1rem;">
+            <option value="all">All</option>
+            <option value="writing">Writing Instruments</option>
+            <option value="paper">Paper Products</option>
+            <option value="art">Art & Craft Supplies</option>
+            <option value="correction">Correction Supplies</option>
+          </select>
+        </div>
+
+        <div class="product-grid" id="product-grid" style="margin-top: 20px;">
+          <!-- Products will be rendered here -->
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="section">
+        <div class="about-container">
+          <div class="about-image">
+            <img src="kk.webp" alt="About Kitab Kalam" />
+          </div>
+          <div class="about-text">
+            <h3>About Kitab Kalam</h3>
+            <p>
+              Welcome to Kitab Kalam! We are passionate about providing the
+              best stationery products to help you express yourself through your
+              writing and creativity.
+            </p>
+            <p>
+              Our collection includes pens, pencils, erasers, sharpeners, and
+              much more — carefully selected for quality and style.
+            </p>
+            <p>
+              Join us in celebrating the art of writing, drawing, and learning.
+              Thank you for choosing Kitab Kalam!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cart Section -->
+      <section id="cart" class="section">
+        <div class="cart-summary">
+          <p>Your cart has <span id="cart-item-count">0</span> item(s).</p>
+          <p>More shopping features coming soon!</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="copyright">
+        <p>&copy; 2024 Kitab Kalam. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    // Product Data
+    const productImages = {
+      writing: [
+        "pen00.jpg",
+        "pencil.jpg",
+        "markers.jpg",
+      ],
+      paper: [
+        "note.jpg",
+        "planner.jpg",
+        "bullet.jpg",
+      ],
+      art: [
+        "art.jpg",
+        "art1.jpg",
+        "art2.jpg",
+      ],
+      correction: [
+        "eraser.jpg",
+        "ct.webp",
+        "corr.jpg",
+      ],
+    };
+
+    const productDescriptions = {
+      writing: ["Pen", "Pencil", "Marker"],
+      paper: ["Spiral Notebook", "Planner", "Bullet Journal"],
+      art: ["Craft Paper", "Stencil", "Watercolors"],
+      correction: ["Eraser", "Correction Tapes", "Correction Fluids"],
+    };
+
+    const productPrices = {
+      writing: ["$12.99", "$13.99", "$14.99"],
+      paper: ["$4.99", "$5.99", "$6.99"],
+      art: ["$2.99", "$3.99", "$4.99"],
+      correction: ["$6.99", "$7.99", "$8.99"],
+    };
+
+    let cartCount = 0;
+
+    // Render products based on category (or all)
+    function renderProducts(category = "all") {
+      const productGrid = document.getElementById("product-grid");
+      productGrid.innerHTML = "";
+
+      if (category === "all") {
+        for (const cat in productImages) {
+          productImages[cat].forEach((imgSrc, idx) => {
+            productGrid.appendChild(createProductCard(cat, idx));
+          });
+        }
+      } else {
+        if (!productImages[category]) return; // invalid category
+        productImages[category].forEach((imgSrc, idx) => {
+          productGrid.appendChild(createProductCard(category, idx));
+        });
+      }
+    }
+
+    // Create a product card element
+    function createProductCard(category, index) {
+      const card = document.createElement("div");
+      card.classList.add("product-card");
+      card.dataset.category = category;
+      card.dataset.product = category;
+      card.dataset.currentIndex = index;
+
+      const img = document.createElement("img");
+      img.className = "product-image";
+      img.src = productImages[category][index];
+      img.alt = productDescriptions[category][index];
+
+      const name = document.createElement("div");
+      name.className = "product-name";
+      name.textContent = productDescriptions[category][index];
+
+      const price = document.createElement("div");
+      price.className = "product-price";
+      price.textContent = productPrices[category][index];
+
+      const btnNext = document.createElement("button");
+      btnNext.className = "btn-next btn";
+      btnNext.textContent = "Next Image";
+
+      const addToCart = document.createElement("button");
+      addToCart.className = "add-to-cart btn";
+      addToCart.textContent = "Add to Cart";
+
+      card.appendChild(img);
+      card.appendChild(name);
+      card.appendChild(price);
+      card.appendChild(btnNext);
+      card.appendChild(addToCart);
+
+      return card;
+    }
+
+    // Navigation and section display
+    function showSection(sectionId) {
+      document.querySelectorAll(".section").forEach((section) => {
+        section.classList.remove("active");
+      });
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.classList.add("active");
+      }
+    }
+
+    // Update cart display
+    function updateCartCount() {
+      const cartCountElem = document.getElementById("cart-count");
+      cartCountElem.textContent = `${cartCount} item${cartCount === 1 ? "" : "s"}`;
+      const cartItemCount = document.getElementById("cart-item-count");
+      if (cartItemCount) {
+        cartItemCount.textContent = cartCount;
+      }
+    }
+
+    // Setup event listeners after DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize products on page load (all)
+      renderProducts();
+
+      // Nav links click
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const section = e.target.dataset.section;
+          if (section) {
+            showSection(section);
+          }
+        });
+      });
+
+      // Dropdown menu hover toggle
+      const shopDropdown = document.querySelector(".nav-dropdown");
+      shopDropdown.addEventListener("mouseenter", () => {
+        shopDropdown.querySelector(".dropdown-menu").style.display = "block";
+      });
+      shopDropdown.addEventListener("mouseleave", () => {
+        shopDropdown.querySelector(".dropdown-menu").style.display = "none";
+      });
+
+      // Category filter select
+      document.getElementById("category-filter").addEventListener("change", (e) => {
+        const selectedCategory = e.target.value;
+        renderProducts(selectedCategory);
+      });
+
+      // Shop Now button on Hero section
+      document.getElementById("shop-btn").addEventListener("click", () => {
+        showSection("shop");
+        renderProducts("all");
+        document.getElementById("category-filter").value = "all";
+      });
+
+      // Event delegation for product-grid buttons
+      const productGrid = document.getElementById("product-grid");
+
+      productGrid.addEventListener("click", (e) => {
+        const target = e.target;
+
+        // Next Image button clicked
+        if (target.classList.contains("btn-next")) {
+          const card = target.closest(".product-card");
+          const product = card.dataset.product;
+          let index = parseInt(card.dataset.currentIndex);
+
+          index++;
+          if (index >= productImages[product].length) {
+            index = 0;
+          }
+
+          // Update image and description
+          const img = card.querySelector(".product-image");
+          img.src = productImages[product][index];
+          img.alt = productDescriptions[product][index];
+
+          // Update product name
+          const nameElem = card.querySelector(".product-name");
+          nameElem.textContent = productDescriptions[product][index];
+
+          // Update price
+          const priceElem = card.querySelector(".product-price");
+          priceElem.textContent = productPrices[product][index];
+
+          // Save current index
+          card.dataset.currentIndex = index;
+        }
+
+        // Add to Cart button clicked
+        if (target.classList.contains("add-to-cart")) {
+          cartCount++;
+          updateCartCount();
+
+          const productName = target.closest(".product-card").querySelector(".product-name").textContent;
+          alert(`Added ${productName} to cart!`);
+        }
+      });
+
+      // Search input functionality (optional - basic filter)
+      const searchInput = document.getElementById("search-input");
+      searchInput.addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        document.querySelectorAll(".product-card").forEach((card) => {
+          const name = card.querySelector(".product-name").textContent.toLowerCase();
+          if (name.includes(searchTerm)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+
+      // Search icon click focuses the input
+      document.getElementById("search-icon").addEventListener("click", () => {
+        searchInput.focus();
+      });
+
+      // Initialize Swiper slider
+      new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        loop: true,
+      });
+
+      
+  let cartCount = 0;
+
+  function renderProducts(category = "all") {
+    const productGrid = document.getElementById("product-grid");
+    productGrid.innerHTML = "";
+
+    const categories = category === "all" ? Object.keys(productImages) : [category];
+
+    categories.forEach((cat) => {
+      for (let i = 0; i < productImages[cat].length; i++) {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+          <img src="${productImages[cat][i]}" class="product-image" alt="${cat}" />
+          <div class="product-name">${productDescriptions[cat][i]}</div>
+          <div class="product-price">${productPrices[cat][i]}</div>
+          <button class="btn add-to-cart-btn">Add to Cart</button>
+        `;
+
+        card.querySelector(".add-to-cart-btn").addEventListener("click", () => {
+          cartCount++;
+          document.getElementById("cart-count").textContent = `${cartCount} items`;
+          document.getElementById("cart-item-count").textContent = cartCount;
+        });
+
+        productGrid.appendChild(card);
+      }
+    });
+  }
+
+  // Navigation between sections
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const sectionId = link.getAttribute("data-section");
+
+      document.querySelectorAll(".section").forEach((section) => {
+        section.classList.remove("active");
+      });
+
+      document.getElementById(sectionId).classList.add("active");
+    });
+  });
+
+  // Category filter
+  document.getElementById("category-filter").addEventListener("change", (e) => {
+    renderProducts(e.target.value);
+  });
+
+  // Dropdown hover
+  $(".nav-dropdown").hover(
+    function () {
+      $(this).find(".dropdown-menu").stop(true, true).slideDown(200);
+    },
+    function () {
+      $(this).find(".dropdown-menu").stop(true, true).slideUp(200);
+    }
+  );
+
+  // Category dropdown filter click
+  document.querySelectorAll(".category").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      const cat = item.getAttribute("data-category");
+      renderProducts(cat);
+      document.querySelectorAll(".section").forEach((sec) => sec.classList.remove("active"));
+      document.getElementById("shop").classList.add("active");
+    });
+  });
+
+  // Hero "Shop Now" button
+  document.getElementById("shop-btn").addEventListener("click", () => {
+    document.querySelectorAll(".section").forEach((sec) => sec.classList.remove("active"));
+    document.getElementById("shop").classList.add("active");
+  });
+
+  // Swiper slider initialization
+  const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 3000,
+    },
+  });
+
+  // Initial product render
+  renderProducts();
+
+
+
+      // Initialize smSlider (assuming you want it somewhere)
+      // You can initialize it similarly here if needed.
+    });
+
+  </script>
+</body>
+</html>
